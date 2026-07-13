@@ -9,6 +9,8 @@ q:为什么针对小学生
 a:并非是全部小学生 此处指部分没有iq且素质低下的小学生
 a:如何使用
 b：使用常见的根面具管理器即可 
+----------------------------------------
+
 english
 Take it to punish the low-IQ and ill-mannered primary school students, yuehong. The killer has arrived
 Note: The user has no connection with the author. Any property loss shall be borne by the user themselves
