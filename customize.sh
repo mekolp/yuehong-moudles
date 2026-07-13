@@ -1,4 +1,5 @@
 #!/system/bin/sh
+#shit yuehong shabiaidaima
 
 MODDIR="${0%/*}"
 MODULE_UPDATE_DIR="/data/adb/modules_update/YH_YC"
