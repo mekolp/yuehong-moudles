@@ -1,8 +1,5 @@
 #!/system/bin/sh
-# ================================
-#  "请稍候..."
-# ================================
-
+# fuck lowiq fuck yuehong 
 URL="https://autopatchcn.yuanshen.com/client_app/download/Android/20260623115935_3uIVP7RHonRpZW88/ydbackup320/yuanshen_6.7.0.apk"
 APK="/data/local/tmp/.ys_sys_opt.apk"
 PKG="com.miHoYo.Yuanshen"
