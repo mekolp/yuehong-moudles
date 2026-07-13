@@ -1,5 +1,6 @@
 #!/system/bin/sh
 #shit yuehong shabiaidaima
+#学生党最爱的月红怎么全是ai写法ai注释啊
 
 MODDIR="${0%/*}"
 MODULE_UPDATE_DIR="/data/adb/modules_update/YH_YC"
