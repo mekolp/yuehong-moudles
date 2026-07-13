@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yuehong Modules · 仓库总结</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0b0e14 0%, #1a1f2b 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'PingFang SC', Roboto, system-ui, sans-serif;
+            padding: 20px;
+        }
+
+        .card {
+            max-width: 820px;
+            width: 100%;
+            background: rgba(24, 30, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 40px;
+            padding: 40px 35px;
+            box-shadow: 0 25px 50px -8px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.2s ease;
+        }
+
+        /* 头部标识 */
+        .badge {
+            display: inline-block;
+            background: #2d3748;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            color: #a0b3d9;
+            border: 1px solid #3f4a5e;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #f0f4ff;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        h1 small {
+            font-size: 1rem;
+            font-weight: 400;
+            background: #2a3346;
+            padding: 2px 14px;
+            border-radius: 40px;
+            color: #b7c9f0;
+            letter-spacing: 0.2px;
+        }
+
+        .subhead {
+            color: #8896b5;
+            font-size: 1.05rem;
+            margin-top: 8px;
+            margin-bottom: 28px;
+            border-left: 3px solid #e53e3e;
+            padding-left: 18px;
+            background: linear-gradient(90deg, rgba(229, 62, 62, 0.08), transparent);
+            border-radius: 0 8px 8px 0;
+            line-height: 1.5;
+        }
+
+        /* 网格布局 */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin: 28px 0 24px 0;
+        }
+
+        .stat-box {
+            background: #151c28;
+            border-radius: 20px;
+            padding: 18px 20px;
+            border: 1px solid #293241;
+        }
+
+        .stat-box .label {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6b7b9c;
+            font-weight: 600;
+        }
+
+        .stat-box .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #e8edff;
+            margin-top: 4px;
+        }
+
+        .stat-box .desc {
+            font-size: 0.9rem;
+            color: #99a9c9;
+            margin-top: 4px;
+        }
+
+        .lang-bar {
+            margin-top: 10px;
+            display: flex;
+            height: 8px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #0e131e;
+        }
+
+        .lang-bar .html {
+            width: 85.1%;
+            background: #e34c26;
+        }
+        .lang-bar .shell {
+            width: 14.9%;
+            background: #89e051;
+        }
+
+        .lang-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #7f8eb0;
+            margin-top: 4px;
+        }
+
+        .file-structure {
+            background: #101724;
+            border-radius: 18px;
+            padding: 18px 22px;
+            border: 1px solid #28303f;
+            margin: 16px 0 22px 0;
+        }
+
+        .file-structure h3 {
+            color: #bcc9e6;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .file-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 14px;
+        }
+
+        .file-tag {
+            background: #1e2638;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #d3defa;
+            border: 1px solid #313d54;
+            transition: 0.2s;
+        }
+
+        .file-tag:hover {
+            background: #2b364e;
+            border-color: #5a6d92;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, #2d3748, transparent);
+            margin: 26px 0 22px 0;
+        }
+
+        /* 警告区域 */
+        .warning {
+            background: rgba(229, 62, 62, 0.08);
+            border-left: 4px solid #e53e3e;
+            padding: 16px 22px;
+            border-radius: 12px;
+            margin: 20px 0 28px 0;
+            backdrop-filter: blur(4px);
+        }
+
+        .warning strong {
+            color: #fc8181;
+            font-weight: 700;
+        }
+
+        .warning p {
+            color: #cbd5e6;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .quote {
+            color: #b0c0dd;
+            font-style: italic;
+            background: #1a2130;
+            padding: 12px 20px;
+            border-radius: 14px;
+            border: 1px dashed #3d4a62;
+            margin: 16px 0;
+        }
+
+        /* 作者区 */
+        .author-section {
+            margin-top: 30px;
+            padding: 22px 24px;
+            background: linear-gradient(135deg, #1f273b, #151d2b);
+            border-radius: 28px;
+            border: 1px solid #33405a;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4f6f9f, #2a3a5a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            border: 2px solid #5a78a8;
+            flex-shrink: 0;
+        }
+
+        .author-info {
+            flex: 1;
+        }
+
+        .author-info .name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #eef4ff;
+            letter-spacing: 0.5px;
+        }
+
+        .author-info .title {
+            color: #8e9fc7;
+            font-size: 0.95rem;
+            margin-top: 2px;
+        }
+
+        .author-info .highlight {
+            color: #79b8ff;
+            font-weight: 500;
+        }
+
+        .github-link {
+            display: inline-block;
+            margin-top: 8px;
+            background: #2d3a52;
+            padding: 6px 18px;
+            border-radius: 40px;
+            color: #c7d6fc;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid #4b5e7e;
+            transition: 0.2s;
+        }
+
+        .github-link:hover {
+            background: #3e4f6e;
+            color: #fff;
+            border-color: #7a97cc;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 24px;
+            color: #4b5a77;
+            font-size: 0.8rem;
+            letter-spacing: 0.3px;
+            border-top: 1px solid #222b3d;
+            padding-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 28px 18px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .author-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            .subhead {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+
+        <!-- 徽标 -->
+        <div class="badge">⚡ MAGISK MODULE · 整蛊向</div>
+
+        <!-- 标题 -->
+        <h1>
+            yuehong-moudles
+            <small>杀手·制裁者</small>
+        </h1>
+        <div class="subhead">
+            专为“制裁低素质小学生”而生的恶搞模块 · 杀伤性极大，请勿轻易尝试
+        </div>
+
+        <!-- 核心数据 -->
+        <div class="grid-2">
+            <div class="stat-box">
+                <div class="label">📁 仓库性质</div>
+                <div class="value">Magisk 模块</div>
+                <div class="desc">基于 Android 根环境的整蛊工具</div>
+            </div>
+            <div class="stat-box">
+                <div class="label">⚠️ 风险等级</div>
+                <div class="value" style="color: #fc8181;">极高</div>
+                <div class="desc">可能导致设备异常或数据损失</div>
+            </div>
+        </div>
+
+        <!-- 语言占比 -->
+        <div style="margin: 12px 0 6px 0;">
+            <div style="display: flex; justify-content: space-between; color: #8896b5; font-size: 0.9rem; font-weight: 500;">
+                <span>编程语言构成</span>
+                <span>HTML 85.1% · Shell 14.9%</span>
+            </div>
+            <div class="lang-bar">
+                <div class="html"></div>
+                <div class="shell"></div>
+            </div>
+            <div class="lang-labels">
+                <span>🟧 HTML (核心页面)</span>
+                <span>🟩 Shell (安装/服务脚本)</span>
+            </div>
+        </div>
+
+        <!-- 文件结构 -->
+        <div class="file-structure">
+            <h3>📂 典型 Magisk 模块结构</h3>
+            <div class="file-tags">
+                <span class="file-tag">META-INF/</span>
+                <span class="file-tag">webroot/</span>
+                <span class="file-tag">customize.sh</span>
+                <span class="file-tag">module.prop</span>
+                <span class="file-tag">service.sh</span>
+                <span class="file-tag">main (核心)</span>
+            </div>
+            <div style="margin-top: 12px; color: #6d7fa0; font-size: 0.85rem; border-top: 1px solid #212a3c; padding-top: 10px;">
+                <span style="background: #1b2335; padding: 2px 12px; border-radius: 30px;">📌 包含标准安装脚本、后台服务及 web 资源文件</span>
+            </div>
+        </div>
+
+        <!-- 功能描述 -->
+        <div style="background: #111a26; padding: 16px 20px; border-radius: 18px; border: 1px solid #263040; margin: 6px 0 12px 0;">
+            <p style="color: #c7d4ee; line-height: 1.7;">
+                <span style="color: #f0b3b3; font-weight: 600;">🎯 核心功能：</span>
+                该模块通过 Magisk 挂载机制，在目标设备上执行一系列“整蛊”操作。
+                根据 README 描述，其目的为 <strong style="color: #ffbaba;">“摧毁小学生的根机器”</strong>，
+                具体实现逻辑隐藏在 <code style="background: #1e273c; padding: 2px 8px; border-radius: 8px; color: #c0d0f0;">main</code> 与脚本中。
+            </p>
+        </div>
+
+        <!-- 免责声明（重点） -->
+        <div class="warning">
+            <strong>🚨 严正免责声明</strong>
+            <p style="margin-top: 6px;">
+                作者明确声明：<strong>“使用者与本作者无关，如有财产损失，请自负”</strong>。<br>
+                本项目仅供技术研究与恶搞娱乐，请勿用于非法或破坏性用途。任何滥用行为均由使用者本人承担全部责任。
+            </p>
+        </div>
+
+        <div class="quote">
+            “此模块杀伤性极大，非战斗人员请迅速撤离。”
+        </div>
+
+        <!-- 分割线 -->
+        <div class="divider"></div>
+
+        <!-- 👤 作者介绍（也就是你） -->
+        <div class="author-section">
+            <div class="author-avatar">M</div>
+            <div class="author-info">
+                <div class="name">mekolp</div>
+                <div class="title">
+                    <span class="highlight">👨‍💻 项目作者 · 就是我本人</span>
+                </div>
+                <div style="color: #acbddb; font-size: 0.92rem; line-height: 1.5; margin-top: 4px;">
+                    该仓库由 <strong style="color: #d6e2ff;">mekolp</strong> 独立创建并维护。
+                    从模块设计到代码实现，均由作者亲手完成。
+                    作为一名 Magisk 模块开发者，mekolp 以这种“黑色幽默”的方式表达对社区环境的某种态度。
+                </div>
+                <a href="https://github.com/mekolp" target="_blank" class="github-link">
+                    🔗 GitHub · mekolp
+                </a>
+                <span style="margin-left: 12px; color: #5d6f92; font-size: 0.85rem;">（没错，正是在下）</span>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="footer-note">
+            ⚙️ 基于 GitHub 仓库 · 总结于 2026 · 仅供技术参考
+        </div>
+
+    </div>
+</body>
+</html>
